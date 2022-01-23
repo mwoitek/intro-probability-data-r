@@ -27,7 +27,7 @@ companion package for this course, `statsr`.
 
 Let's load the packages.
 
-```{r load-packages, message = FALSE}
+```{r load-packages, message=FALSE}
 library(statsr)
 library(dplyr)
 library(ggplot2)
@@ -41,17 +41,17 @@ Technology Administration (RITA). As its name implies, BTS collects and makes
 available transportation data, such as the flights data we will be working with
 in this lab.
 
-We begin by loading the `nycflights` data frame. Type the following in your console
-to load the data:
+We begin by loading the `nycflights` data frame. Type the following in your
+console to load the data:
 
 ```{r load-data}
 data(nycflights)
 ```
 
 The data frame containing `r nrow(nycflights)` flights that shows up in your
-workspace is a *data matrix*, with each row representing an *observation* and each
-column representing a *variable*. R calls this data format a **data frame**, which is
-a term that will be used throughout the labs.
+workspace is a *data matrix*, with each row representing an *observation* and
+each column representing a *variable*. R calls this data format a **data
+frame**, which is a term that will be used throughout the labs.
 
 To view the names of the variables, type the command
 
@@ -66,7 +66,8 @@ found in the help file for the data frame which can be accessed by typing
 
 - `year`, `month`, `day`: Date of departure
 - `dep_time`, `arr_time`: Departure and arrival times, local timezone.
-- `dep_delay`, `arr_delay`: Departure and arrival delays, in minutes. Negative times represent early departures/arrivals.
+- `dep_delay`, `arr_delay`: Departure and arrival delays, in minutes. Negative
+times represent early departures/arrivals.
 - `carrier`: Two letter carrier abbreviation.
     + `9E`:           Endeavor Air Inc.
     + `AA`:      American Airlines Inc.
@@ -105,13 +106,12 @@ some questions we might want to answer with these data:
 - We might want to find out how delayed flights headed to a particular
 destination tend to be.
 - We might want to evaluate how departure delays vary over months.
-- Or we might want to determine which of the three major NYC airports has a better
-on time percentage for departing flights.
+- Or we might want to determine which of the three major NYC airports has a
+better on time percentage for departing flights.
 
 ### Seven verbs
 
-The `dplyr` package offers seven verbs (functions) for basic data
-manipulation:
+The `dplyr` package offers seven verbs (functions) for basic data manipulation:
 
 - `filter()`
 - `arrange()`
@@ -140,10 +140,10 @@ This function says to plot the `dep_delay` variable from the `nycflights` data
 frame on the x-axis. It also defines a `geom` (short for geometric object),
 which describes the type of plot you will produce.
 
-HERE
 Histograms are generally a very good way to see the shape of a single
 distribution, but that shape can change depending on how the data is split
-between the different bins. You can easily define the binwidth you want to use:
+between the different bins. You can easily define the `binwidth` you want to
+use:
 
 ```{r hist-dep-delay-bins}
 ggplot(data = nycflights, aes(x = dep_delay)) +
@@ -156,9 +156,9 @@ ggplot(data = nycflights, aes(x = dep_delay)) +
 **Exercise**: How do these three histograms with the various binwidths compare?
 </div>
 
-If we want to focus on departure delays of flights headed to RDU only, we need to
-first `filter` the data for flights headed to RDU (`dest == "RDU"`) and then make
-a histogram of only departure delays of only those flights.
+If we want to focus on departure delays of flights headed to RDU only, we need
+to first `filter` the data for flights headed to RDU (`dest == "RDU"`) and then
+make a histogram of only departure delays of only those flights.
 
 ```{r rdu-flights-hist}
 rdu_flights <- nycflights %>%
@@ -169,8 +169,8 @@ ggplot(data = rdu_flights, aes(x = dep_delay)) +
 
 Let's decipher these three lines of code:
 
-- Line 1: Take the `nycflights` data frame, `filter` for flights headed to RDU, and
-save the result as a new data frame called `rdu_flights`.
+- Line 1: Take the `nycflights` data frame, `filter` for flights headed to RDU,
+and save the result as a new data frame called `rdu_flights`.
     + `==` means "if it's equal to".
     + `RDU` is in quotation marks since it is a character string.
 - Line 2: Basically the same `ggplot` call from earlier for making a histogram,
@@ -178,7 +178,7 @@ except that it uses the data frame for flights headed to RDU instead of all
 flights.
 
 <div id="boxedtext">
-**Logical operators: ** Filtering for certain observations (e.g. flights from a
+**Logical operators:** Filtering for certain observations (e.g., flights from a
 particular airport) is often of interest in data frames where we might want to
 examine observations with certain characteristics separately from the rest of
 the data. To do so we use the `filter` function and a series of
@@ -205,7 +205,7 @@ names). Calculating these summary statistics also require that you know the
 function calls. Note that `n()` reports the sample size.
 
 <div id="boxedtext">
-**Summary statistics: ** Some useful function calls for summary statistics for a
+**Summary statistics:** Some useful function calls for summary statistics for a
 single numerical variable are as follows:
 
 - `mean`
@@ -228,37 +228,40 @@ sfo_feb_flights <- nycflights %>%
 
 Note that we can separate the conditions using commas if we want flights that
 are both headed to SFO **and** in February. If we are interested in either
-flights headed to SFO **or** in February we can use the `|` instead of the comma.
+flights headed to SFO **or** in February we can use the `|` instead of the
+comma.
 
 1. Create a new data frame that includes flights headed to SFO in February, and save
 this data frame as `sfo_feb_flights`. How many flights meet these criteria?
 <ol>
-<li> 68 </li>
-<li> 1345 </li>
-<li> 2286 </li>
-<li> 3563 </li>
-<li> 32735 </li>
+<li>**68**</li>
+<li>1345</li>
+<li>2286</li>
+<li>3563</li>
+<li>32735</li>
 </ol>
 
 ```{r sfo-feb-flights}
-# type your code for Question 1 here, and Knit
-
+# Type your code for Question 1 here, and Knit
+nrow(sfo_feb_flights)
 ```
-
 
 2. Make a histogram and calculate appropriate summary statistics for **arrival**
 delays of `sfo_feb_flights`. Which of the following is false?
 <ol>
-<li> The distribution is unimodal. </li>
-<li> The distribution is right skewed. </li>
-<li> No flight is delayed more than 2 hours. </li>
-<li> The distribution has several extreme values on the right side. </li>
-<li> More than 50% of flights arrive on time or earlier than scheduled. </li>
+<li>The distribution is unimodal.</li>
+<li>The distribution is right skewed.</li>
+<li>**No flight is delayed more than 2 hours.**</li>
+<li>The distribution has several extreme values on the right side.</li>
+<li>More than 50% of flights arrive on time or earlier than scheduled.</li>
 </ol>
 
 ```{r sfo-feb-flights-arrival-delays}
-# type your code for Question 2 here, and Knit
-
+# Type your code for Question 2 here, and Knit
+ggplot(data = sfo_feb_flights, aes(x = arr_delay)) +
+  geom_histogram()
+sfo_feb_flights %>%
+  summarise(mean_ad = mean(arr_delay), median_ad = median(arr_delay), max_ad = max(arr_delay))
 ```
 
 Another useful functionality is being able to quickly calculate summary
@@ -275,20 +278,22 @@ rdu_flights %>%
 Here, we first grouped the data by `origin`, and then calculated the summary
 statistics.
 
-3.  Calculate the median and interquartile range for `arr_delay`s of flights in the
-`sfo_feb_flights` data frame, grouped by carrier. Which carrier has the hights
+3. Calculate the median and interquartile range for `arr_delay`s of flights in the
+`sfo_feb_flights` data frame, grouped by `carrier`. Which carrier has the highest
 IQR of arrival delays?
 <ol>
-<li> American Airlines </li>
-<li> JetBlue Airways </li>
-<li> Virgin America </li>
-<li> Delta and United Airlines </li>
-<li> Frontier Airlines </li>
+<li>American Airlines</li>
+<li>JetBlue Airways</li>
+<li>Virgin America</li>
+<li>**Delta and United Airlines**</li>
+<li>Frontier Airlines</li>
 </ol>
 
 ```{r sfo-feb-flights-arrival-delays-carrier}
-# type your code for Question 3 here, and Knit
-
+# Type your code for Question 3 here, and Knit
+sfo_feb_flights %>%
+  group_by(carrier) %>%
+  summarise(median_ad = median(arr_delay), iqr_ad = IQR(arr_delay))
 ```
 
 ### Departure delays over months
@@ -302,7 +307,7 @@ Let's think about how we would answer this question:
 we are learning, we need to
     + `group_by` months, then
     + `summarise` mean departure delays.
-- Then, we need to `arrange` these average delays in `desc`ending order
+- Then, we need to `arrange` these average delays in `desc`ending order.
 
 ```{r mean-dep-delay-months}
 nycflights %>%
@@ -311,46 +316,49 @@ nycflights %>%
   arrange(desc(mean_dd))
 ```
 
-4.  Which month has the highest average departure delay from an NYC airport?
+4. Which month has the highest average departure delay from an NYC airport?
 <ol>
-<li> January </li>
-<li> March </li>
-<li> July </li>
-<li> October </li>
-<li> December </li>
+<li>January</li>
+<li>March</li>
+<li>**July**</li>
+<li>October</li>
+<li>December</li>
 </ol>
 
 ```{r highest-avg-dep-delay-month}
-# type your code for Question 4 here, and Knit
-
+# Type your code for Question 4 here, and Knit
+nycflights %>%
+  group_by(month) %>%
+  summarise(mean_dd = mean(dep_delay)) %>%
+  arrange(desc(mean_dd))
 ```
 
-
-5.  Which month has the highest median departure delay from an NYC airport?
+5. Which month has the highest median departure delay from an NYC airport?
 <ol>
-<li> January </li>
-<li> March </li>
-<li> July </li>
-<li> October </li>
-<li> December </li>
+<li>January</li>
+<li>March</li>
+<li>July</li>
+<li>October</li>
+<li>**December**</li>
 </ol>
 
 ```{r highest-median-dep-delay-month}
-# type your code for Question 5 here, and Knit
-
+# Type your code for Question 5 here, and Knit
+nycflights %>%
+  group_by(month) %>%
+  summarise(median_dd = median(dep_delay)) %>%
+  arrange(desc(median_dd))
 ```
 
-
-6.  Is the mean or the median a more reliable measure for deciding which month(s) to
+6. Is the mean or the median a more reliable measure for deciding which month(s) to
 avoid flying if you really dislike delayed flights, and why?
 <ol>
-<li> Mean would be more reliable as it gives us the true average. </li>
-<li> Mean would be more reliable as the distribution of delays is symmetric. </li>
-<li> Median would be more reliable as the distribution of delays is skewed. </li>
-<li> Median would be more reliable as the distribution of delays is symmetric. </li>
-<li> Both give us useful information. </li>
+<li>Mean would be more reliable as it gives us the true average.</li>
+<li>Mean would be more reliable as the distribution of delays is symmetric.</li>
+<li>**Median would be more reliable as the distribution of delays is skewed.**</li>
+<li>Median would be more reliable as the distribution of delays is symmetric.</li>
+<li>Both give us useful information.</li>
 </ol>
-
 
 We can also visualize the distributions of departure delays across months using
 side-by-side box plots:
@@ -362,9 +370,9 @@ ggplot(nycflights, aes(x = factor(month), y = dep_delay)) +
 
 There is some new syntax here: We want departure delays on the y-axis and the
 months on the x-axis to produce side-by-side box plots. Side-by-side box plots
-require a categorical variable on the x-axis, however in the data frame `month` is
-stored as a numerical variable (numbers 1 - 12). Therefore we can force R to treat
-this variable as categorical, what R calls a **factor**, variable with
+require a categorical variable on the x-axis, however in the data frame `month`
+is stored as a numerical variable (numbers 1 - 12). Therefore we can force R to
+treat this variable as categorical, what R calls a **factor**, variable with
 `factor(month)`.
 
 ### On time departure rate for NYC airports
@@ -392,10 +400,10 @@ nycflights <- nycflights %>%
   mutate(dep_type = ifelse(dep_delay < 5, "on time", "delayed"))
 ```
 
-The first argument in the `mutate` function is the name of the new variable
-we want to create, in this case `dep_type`. Then if `dep_delay < 5` we classify
-the flight as `"on time"` and `"delayed"` if not, i.e. if the flight is delayed
-for 5 or more minutes.
+The first argument in the `mutate` function is the name of the new variable we
+want to create, in this case `dep_type`. Then if `dep_delay < 5` we classify
+the flight as `"on time"` and `"delayed"` if not, i.e., if the flight is
+delayed for 5 or more minutes.
 
 Note that we are also overwriting the `nycflights` data frame with the new
 version of this data frame that includes the new `dep_type` variable.
@@ -409,19 +417,25 @@ nycflights %>%
   arrange(desc(ot_dep_rate))
 ```
 
-**The summarise step is telling R to count up how many records of the currently found group are on time - sum(dep_type == "on time”) - and divide that result by the total number of elements in the currently found group - n() - to get a proportion, then to store the answer in a new variable called ot_dep_rate.**
+**The summarise step is telling R to count up how many records of the currently
+found group are on time - sum(dep_type == "on time”) - and divide that result
+by the total number of elements in the currently found group - n() - to get a
+proportion, then to store the answer in a new variable called ot_dep_rate.**
 
-7.  If you were selecting an airport simply based on on time departure percentage,
+7. If you were selecting an airport simply based on on time departure percentage,
 which NYC airport would you choose to fly out of?
 <ol>
-<li> EWR </li>
-<li> JFK </li>
-<li> LGA </li>
+<li>EWR</li>
+<li>JFK</li>
+<li>**LGA**</li>
 </ol>
 
 ```{r on-time-dep-perc-airport}
-# type your code for Question 7 here, and Knit
-
+# Type your code for Question 7 here, and Knit
+nycflights %>%
+  group_by(origin) %>%
+  summarise(ot_dep_rate = sum(dep_type == "on time") / n()) %>%
+  arrange(desc(ot_dep_rate))
 ```
 
 We can also visualize the distribution of on on time departure rate across
@@ -432,7 +446,7 @@ ggplot(data = nycflights, aes(x = origin, fill = dep_type)) +
   geom_bar()
 ```
 
-8.  Mutate the data frame so that it includes a new variable that contains the
+8. Mutate the data frame so that it includes a new variable that contains the
 average speed, `avg_speed` traveled by the plane for each flight (in mph). What is
 the tail number of the plane with the fastest `avg_speed`? **Hint:** Average speed
 can be calculated as distance divided by number of hours of travel, and note that
@@ -441,44 +455,51 @@ can be calculated as distance divided by number of hours of travel, and note tha
 pipe to select just these two variables with `select(avg_speed, tailnum)`. You can
 Google this tail number to find out more about the aircraft.
 <ol>
-<li> N666DN </li>
-<li> N755US </li>
-<li> N779JB </li>
-<li> N947UW </li>
-<li> N959UW </li>
+<li>**N666DN**</li>
+<li>N755US</li>
+<li>N779JB</li>
+<li>N947UW</li>
+<li>N959UW</li>
 </ol>
 
 ```{r fastest-avg-speed-tailnum}
-# type your code for Question 8 here, and Knit
-
+# Type your code for Question 8 here, and Knit
+nycflights <- nycflights %>%
+  mutate(avg_speed = 60 * distance / air_time)
+nycflights %>%
+  select(avg_speed, tailnum) %>%
+  arrange(desc(avg_speed)) %>%
+  slice_head(n = 5)
 ```
 
-
-9.  Make a scatterplot of `avg_speed` vs. `distance`. Which of the following is true
-about the relationship between average speed and distance.
+9. Make a scatterplot of `avg_speed` vs. `distance`. Which of the following is true
+about the relationship between average speed and distance?
 <ol>
-<li> As distance increases the average speed of flights decreases. </li>
-<li> The relationship is linear. </li>
-<li> There is an overall postive association between distance and average speed.</li>
-<li> There are no outliers. </li>
-<li> The distribution of distances are uniform over 0 to 5000 miles. </li>
+<li>As distance increases the average speed of flights decreases.</li>
+<li>The relationship is linear.</li>
+<li>**There is an overall positive association between distance and average speed.**</li>
+<li>There are no outliers.</li>
+<li>The distribution of distances is uniform over 0 to 5000 miles.</li>
 </ol>
 
 ```{r avg-speed-dist-scatter}
-# type your code for Question 9 here, and Knit
-
+# Type your code for Question 9 here, and Knit
+ggplot(data = nycflights, aes(x = distance, y = avg_speed)) +
+  geom_point()
 ```
 
-
-10.  Suppose you define a flight to be "on time" if it gets to the destination on
-time or earlier than expected, regardless of any departure delays. Mutate the data
-frame to create a new variable called `arr_type` with levels `"on time"` and
-`"delayed"` based on this definition. Then, determine the on time arrival percentage
-based on whether the flight departed on time or not. What proportion of flights  that
-were `"delayed"` departing arrive `"on time"`?
-[NUMERIC INPUT]
+10. Suppose you define a flight to be "on time" if it gets to the destination
+on time or earlier than expected, regardless of any departure delays. Mutate
+the data frame to create a new variable called `arr_type` with levels `"on
+time"` and `"delayed"` based on this definition. Then, determine the on time
+arrival percentage based on whether the flight departed on time or not. What
+proportion of flights that were `"delayed"` departing arrive `"on time"`?
 
 ```{r on-time-arr-perc}
-# type your code for Question 10 here, and Knit
-
+# Type your code for Question 10 here, and Knit
+nycflights <- nycflights %>%
+  mutate(arr_type = ifelse(arr_delay <= 0, "on time", "delayed"))
+nycflights %>%
+  filter(dep_type == "delayed") %>%
+  summarise(proportion = sum(arr_type == "on time") / n())
 ```
